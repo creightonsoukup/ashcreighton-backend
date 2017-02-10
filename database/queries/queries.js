@@ -28,9 +28,9 @@ function editVc (id, name, type, city, state, country, website, description, dat
   })
 }
 
-function newVc (id, name, type, city, state, country, website, description, date_added, investments_last_twelve, active_portfolio, last_fund_size, last_fund_date, dry_powder, exits, year_founded, investment_range_low, investment_range_high, investments) {
+function newVc (name, type, city, state, country, website, description, date_added, investments_last_twelve, active_portfolio, last_fund_size, last_fund_date, dry_powder, exits, year_founded, investment_range_low, investment_range_high, investments) {
   return getAllVc().insert({
-    name : name,
+    name: name,
     type: type,
     city: city,
     state: state,
