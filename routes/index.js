@@ -10,6 +10,13 @@ router.get('/vc', function(req, res, next) {
       })
 });
 
+router.get('/vc/:id', function(req, res, next) {
+  queries.getVc(req.params.id)
+    .then((data) => {
+      res.send(data)
+    })
+})
+
 router.post('/vc/update', function(req, res, next) {
   queries.editVc(req.body.id, req.body.name,
     req.body.type, req.body.city, req.body.state,
