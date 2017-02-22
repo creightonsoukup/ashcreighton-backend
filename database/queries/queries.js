@@ -41,7 +41,7 @@ function newVc (name, type, city, state, country, website, description, date_add
     country: country,
     website: website,
     description: description,
-    date_added: date_added,
+    date_added: new Date,
     investments_last_twelve: investments_last_twelve,
     active_portfolio: active_portfolio,
     last_fund_size: last_fund_size,
