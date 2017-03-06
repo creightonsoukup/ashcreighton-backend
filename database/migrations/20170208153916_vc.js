@@ -8,7 +8,6 @@ exports.up = function(knex, Promise) {
     table.string('country')
     table.string('website');
     table.text('description');
-    table.dateTime('date_added');
     table.integer('investments_last_twelve');
     table.integer('active_portfolio');
     table.string('last_fund_size');

@@ -47,4 +47,37 @@ router.post('/vc/new', function(req, res, next) {
       })
 })
 
+router.get('/portfolio/:id', function (req, res, next) {
+  queries.getPorfolio(req.params.id)
+    .then((data) => {
+      console.log(data)
+      res.send(data)
+    })
+})
+
+router.post('/portfolio/add', function(req, res, next) {
+  queries.addPortfolioCompany(req.body.id, req.body.name, req.body.facebook,
+  req.body.twitter, req.body.linkedin, req.body.description, req.body.city,
+  req.body.state, req.body.website, req.body.vertical)
+    .then((data) => {
+      res.send('success')
+    })
+})
+
+router.post('/portfolio/investment/add', function (req, res, next) {
+  queries.addInvestment(req.body.vcId, req.body.startupId, req.body.round,
+  req.body.date, req.body.lead)
+    .then((data) => {
+      console.log(data)
+      res.send('success')
+    })
+})
+
+router.get('/startup/all', function(req, res, next ) {
+  queries.getAllStartups()
+    .then((data) => {
+      res.send(data)
+    })
+})
+
 module.exports = router;
