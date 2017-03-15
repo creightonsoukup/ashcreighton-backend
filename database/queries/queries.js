@@ -64,6 +64,10 @@ function newVc (name, type, city, state, country, website, description, date_add
   })
 }
 
+function searchFundedStartups(name) {
+  return getAllStartups().where('name', name).returning('id')
+}
+
 function addPortfolioCompany (name, facebook, twitter, linkedin,
   description, city, state, website, domain, profile_image, country) {
     return getAllStartups().insert({
@@ -126,5 +130,6 @@ module.exports = {
   getAllStartups,
   getAllInvestments,
   addInvestment,
-  getPorfolio
+  getPorfolio,
+  searchFundedStartups
 }

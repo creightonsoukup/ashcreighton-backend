@@ -50,26 +50,38 @@ router.post('/vc/new', function(req, res, next) {
 router.get('/portfolio/:id', function (req, res, next) {
   queries.getPorfolio(req.params.id)
     .then((data) => {
-      console.log(data)
       res.send(data)
     })
 })
 
 router.post('/portfolio/add', function(req, res, next) {
 
-  queries.addPortfolioCompany(req.body.name, req.body.facebook,
-  req.body.twitter, req.body.linkedin, req.body.description, req.body.city,
-  req.body.state, req.body.website, req.body.domain, req.body.profile_image, req.body.country)
+  queries.searchFundedStartups(req.body.name)
     .then((data) => {
-      console.log(req.body.id, data[0])
-      const startupId = parseInt(data[0])
-      const vcId = parseInt(req.body.id)
-      queries.addInvestment(vcId, startupId)
-        .then((data) => {
-          res.send(data)
-        })
+      if(data.length == 0){
+        queries.addPortfolioCompany(req.body.name, req.body.facebook,
+        req.body.twitter, req.body.linkedin, req.body.description, req.body.city,
+        req.body.state, req.body.website, req.body.domain, req.body.profile_image, req.body.country)
+          .then((data) => {
+            console.log(req.body.id, data[0])
+            const startupId = parseInt(data[0])
+            const vcId = parseInt(req.body.id)
+            queries.addInvestment(vcId, startupId)
+              .then((data) => {
+                res.send(data)
+              })
+          })
+          .catch((err) => console.error(err))
+      } else {
+        const startupId = data[0].id
+        const vcId = parseInt(req.body.id)
+        queries.addInvestment(vcId, startupId)
+          .then((data) => {
+            res.send(data)
+          })
+      }
     })
-    .catch((err) => console.error(err))
+
 })
 
 router.post('/portfolio/investment/add', function (req, res, next) {
