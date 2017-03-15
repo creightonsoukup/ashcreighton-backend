@@ -64,32 +64,48 @@ function newVc (name, type, city, state, country, website, description, date_add
   })
 }
 
-function addPortfolioCompany (id, name, facebook, twitter, linkedin, description, city, state, website, vertical) {
+function addPortfolioCompany (name, facebook, twitter, linkedin,
+  description, city, state, website, domain, profile_image, country) {
     return getAllStartups().insert({
       name: name,
       city: city,
       state: state,
-      country: 'USA',
+      country: country,
       website: website,
       facebook: facebook,
       twitter: twitter,
       linkedin: linkedin,
       description: description,
+      profile_image: profile_image,
+      domain: domain,
       date_added: new Date(),
       updated: new Date()
-    })
+    }).returning('id')
   }
 
-function addInvestment(vcId, startupId,
-  round, date, lead) {
+
+function addInvestment(vcId, startupId) {
   return getAllInvestments().insert({
-    vc_id: parseInt(vcId),
-    startup_id: parseInt(startupId),
-    lead: lead,
-    date_of_investment: new Date(),
-    financing_round: round,
+    vc_id: vcId,
+    startup_id: startupId,
     date_added: new Date()
+  }).returning('id')
+}
+
+function addMultipleInvestment(vcId, startups) {
+  var rows = []
+  startups.map((data) => {
+    return (
+     rows.push(getAllInvestments().insert(
+        {
+        vc_id: parseInt(vcId),
+        startup_id: parseInt(data),
+        date_added: new Date()
+        })
+      )
+    )
   })
+  return Promise.all(rows)
 }
 
 function getPorfolio(vcId) {

@@ -56,24 +56,32 @@ router.get('/portfolio/:id', function (req, res, next) {
 })
 
 router.post('/portfolio/add', function(req, res, next) {
-  queries.addPortfolioCompany(req.body.id, req.body.name, req.body.facebook,
+
+  queries.addPortfolioCompany(req.body.name, req.body.facebook,
   req.body.twitter, req.body.linkedin, req.body.description, req.body.city,
-  req.body.state, req.body.website, req.body.vertical)
+  req.body.state, req.body.website, req.body.domain, req.body.profile_image, req.body.country)
     .then((data) => {
-      res.send('success')
+      console.log(req.body.id, data[0])
+      const startupId = parseInt(data[0])
+      const vcId = parseInt(req.body.id)
+      queries.addInvestment(vcId, startupId)
+        .then((data) => {
+          res.send(data)
+        })
     })
+    .catch((err) => console.error(err))
 })
 
 router.post('/portfolio/investment/add', function (req, res, next) {
-  queries.addInvestment(req.body.vcId, req.body.startupId, req.body.round,
-  req.body.date, req.body.lead)
+  queries.addInvestment(req.body.id, req.body.startups)
     .then((data) => {
-      console.log(data)
-      res.send('success')
+        res.send('success')
     })
+    .catch((err) => console.error(err))
 })
 
 router.get('/startup/all', function(req, res, next ) {
+  console.log('hello')
   queries.getAllStartups()
     .then((data) => {
       res.send(data)

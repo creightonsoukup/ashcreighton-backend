@@ -6,8 +6,10 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
+    "csv-parser": "^1.11.0",
     "debug": "~2.2.0",
     "dotenv": "^4.0.0",
     "express": "~4.13.4",
@@ -16,7 +18,9 @@
     "knex-csv-seeder": "^0.4.1",
     "morgan": "~1.7.0",
     "pg": "^6.1.2",
+    "request": "^2.81.0",
     "serve-favicon": "~2.3.0",
-    "sql": "^0.74.0"
+    "sql": "^0.74.0",
+    "webpack": "^2.2.1"
   }
 }

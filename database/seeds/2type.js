@@ -4,7 +4,7 @@ exports.seed = function(knex, Promise) {
   return knex('type').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
+      return knex('type').insert([
         {type: 'Pre-Seed'},
         {type: 'Seed'},
         {type: 'Series A'},
