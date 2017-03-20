@@ -40,6 +40,10 @@ function getVc(id) {
   return getAllVc().where('id',id)
 }
 
+function deleteVc(id) {
+  
+}
+
 function newVc (name, type, city, state, country, website, description, date_added, investments_last_twelve, active_portfolio, last_fund_size, last_fund_date, dry_powder, exits, year_founded, investment_range_low, investment_range_high, investments) {
   return getAllVc().insert({
     name: name,
@@ -126,6 +130,7 @@ module.exports = {
   newVc,
   editVc,
   getVc,
+  deleteVc,
   addPortfolioCompany,
   getAllStartups,
   getAllInvestments,

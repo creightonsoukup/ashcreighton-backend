@@ -46,7 +46,6 @@ const vcData = [
     "active_portfolio": 4,
     "investments": 6,
     "dry_powder": 565.5,
-
     "year_founded": 2008,
     "description": "0"
   },
@@ -879,7 +878,7 @@ const vcData = [
     "active_portfolio": 3,
     "investments": 4,
     "dry_powder": 3.58,
-    
+
     "year_founded": 2000,
     "description": "Long River Ventures is a venture capital firm that invests in seed and early stage companies in the healthcare, information technology and other technology-driven sectors. The firm was founded in 2000 and has offices in Amherst and Boston, Massachusetts, investing in the Northeast."
   },

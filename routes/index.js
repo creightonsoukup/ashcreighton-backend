@@ -47,6 +47,11 @@ router.post('/vc/new', function(req, res, next) {
       })
 })
 
+router.post('/vc/delete', function(req,res,next) {
+  console.log(req.body.rows)
+  res.send('success')
+})
+
 router.get('/portfolio/:id', function (req, res, next) {
   queries.getPorfolio(req.params.id)
     .then((data) => {
