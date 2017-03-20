@@ -67,9 +67,9 @@ router.get('/portfolio/:id', function (req, res, next) {
 
 router.post('/portfolio/add', function(req, res, next) {
 
-  queries.searchFundedStartups(req.body.name)
+  queries.searchFundedStartups(req.body.domain)
     .then((data) => {
-      if(data.length == 0){
+      if(data.length === 0){
         queries.addPortfolioCompany(req.body.name, req.body.facebook,
         req.body.twitter, req.body.linkedin, req.body.description, req.body.city,
         req.body.state, req.body.website, req.body.domain, req.body.profile_image, req.body.country)
@@ -96,15 +96,17 @@ router.post('/portfolio/add', function(req, res, next) {
 })
 
 router.post('/portfolio/delete', function(req,res,next) {
-  let startups = req.body.startups
+  let id = req.body.rows[0].id
   let VCId = req.body.vcId
-  queries.deleteInvestments(startups, vcId)
-    .then(() => {
-      queries.getPortfolio(vcId)
+  console.log(id)
+  queries.deleteInvestments(id)
+    .then((data) => {
+      queries.getPortfolio(VCId)
         .then((data) => {
           res.send(data)
         })
     })
+    .catch((err) => next(err))
 })
 
 router.post('/portfolio/investment/add', function (req, res, next) {
@@ -120,6 +122,18 @@ router.get('/startup/all', function(req, res, next ) {
   queries.getAllStartups()
     .then((data) => {
       res.send(data)
+    })
+})
+
+router.post('/startup/delete', function(req,res,next ) {
+  const id = req.body.row[0].id
+  console.log(id)
+  queries.deleteStartup(id)
+    .then((data) => {
+      queries.getAllStartups()
+        .then((data) => {
+          res.send(data)
+        })
     })
 })
 

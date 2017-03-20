@@ -50,25 +50,12 @@ function deleteVCs(vcs) {
   return Promise.all(rows)
 }
 
-function deleteStartups(startups) {
-  let rows = []
-  startups.map((data) => {
-    return rows.push(getAllStartups().where('id', data.id).del())
-  })
-  return Promise.all(rows)
+function deleteStartup(id) {
+  return getAllStartups().where('id', id).del()
 }
 
-function deleteInvestments(startups, vcId) {
-  let rows = []
-  startups.map((data) => {
-    return rows.push(
-      getAllInvestments().where({
-        vc_id: vcId,
-        startup_id: data.id
-      }).del()
-    )
-  })
-  return Promise.all(rows)
+function deleteInvestments(id) {
+  return getAllInvestments().where('id', id).del()
 }
 
 
@@ -96,8 +83,8 @@ function newVc (name, type, city, state, country, website, description, date_add
   })
 }
 
-function searchFundedStartups(name) {
-  return getAllStartups().where('name', name).returning('id')
+function searchFundedStartups(domain) {
+  return getAllStartups().where('domain', domain).returning('id')
 }
 
 function addPortfolioCompany (name, facebook, twitter, linkedin,
@@ -146,7 +133,6 @@ function addMultipleInvestment(vcId, startups) {
 
 function getPortfolio(vcId) {
   const id = parseInt(vcId)
-  console.log(id)
   return getAllStartups().join('vc_startup', 'funded_startup.id', 'vc_startup.startup_id' )
     .where('vc_startup.vc_id', id)
 }
@@ -161,10 +147,10 @@ module.exports = {
   deleteVCs,
   addPortfolioCompany,
   getAllStartups,
-  deleteStartups,
+  deleteStartup,
   getAllInvestments,
   deleteInvestments,
   addInvestment,
   getPortfolio,
-  searchFundedStartups
+  searchFundedStartups,
 }
