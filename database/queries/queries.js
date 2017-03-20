@@ -9,7 +9,7 @@ function getAllStartups () {
 }
 
 function getAllInvestments () {
-  return knex('vc_startup').orderBy('name', 'asce')
+  return knex('vc_startup')
 }
 
 function editVc (id, name, type, city, state, country, website, description, date_added, investments_last_twelve, active_portfolio, last_fund_size, last_fund_date, dry_powder, exits, year_founded, investment_range_low, investment_range_high, investments) {
@@ -40,9 +40,37 @@ function getVc(id) {
   return getAllVc().where('id',id)
 }
 
-function deleteVc(id) {
-  
+function deleteVCs(vcs) {
+  let rows = []
+  vcs.map((data) => {
+    return (
+      rows.push(getAllVc().where('id', data.id).del())
+    )
+  })
+  return Promise.all(rows)
 }
+
+function deleteStartups(startups) {
+  let rows = []
+  startups.map((data) => {
+    return rows.push(getAllStartups().where('id', data.id).del())
+  })
+  return Promise.all(rows)
+}
+
+function deleteInvestments(startups, vcId) {
+  let rows = []
+  startups.map((data) => {
+    return rows.push(
+      getAllInvestments().where({
+        vc_id: vcId,
+        startup_id: data.id
+      }).del()
+    )
+  })
+  return Promise.all(rows)
+}
+
 
 function newVc (name, type, city, state, country, website, description, date_added, investments_last_twelve, active_portfolio, last_fund_size, last_fund_date, dry_powder, exits, year_founded, investment_range_low, investment_range_high, investments) {
   return getAllVc().insert({
@@ -116,7 +144,7 @@ function addMultipleInvestment(vcId, startups) {
   return Promise.all(rows)
 }
 
-function getPorfolio(vcId) {
+function getPortfolio(vcId) {
   const id = parseInt(vcId)
   console.log(id)
   return getAllStartups().join('vc_startup', 'funded_startup.id', 'vc_startup.startup_id' )
@@ -130,11 +158,13 @@ module.exports = {
   newVc,
   editVc,
   getVc,
-  deleteVc,
+  deleteVCs,
   addPortfolioCompany,
   getAllStartups,
+  deleteStartups,
   getAllInvestments,
+  deleteInvestments,
   addInvestment,
-  getPorfolio,
+  getPortfolio,
   searchFundedStartups
 }

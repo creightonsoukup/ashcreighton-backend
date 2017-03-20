@@ -48,12 +48,18 @@ router.post('/vc/new', function(req, res, next) {
 })
 
 router.post('/vc/delete', function(req,res,next) {
-  console.log(req.body.rows)
-  res.send('success')
+  let vcs = req.body.rows
+  queries.deleteVCs(vcs)
+    .then(() => {
+      queries.getAllVc()
+      .then((data) => {
+        res.send(data)
+      })
+    })
 })
 
 router.get('/portfolio/:id', function (req, res, next) {
-  queries.getPorfolio(req.params.id)
+  queries.getPortfolio(req.params.id)
     .then((data) => {
       res.send(data)
     })
@@ -87,6 +93,18 @@ router.post('/portfolio/add', function(req, res, next) {
       }
     })
 
+})
+
+router.post('/portfolio/delete', function(req,res,next) {
+  let startups = req.body.startups
+  let VCId = req.body.vcId
+  queries.deleteInvestments(startups, vcId)
+    .then(() => {
+      queries.getPortfolio(vcId)
+        .then((data) => {
+          res.send(data)
+        })
+    })
 })
 
 router.post('/portfolio/investment/add', function (req, res, next) {
